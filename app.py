@@ -11,15 +11,24 @@ import humanize
 import random
 
 
+
 app = Flask(__name__)
 folderPath = os.path.dirname(os.path.abspath(__file__))
 app.config["FOLDER_PATH"] = folderPath
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + folderPath + "/master.db"
+app.config["SECRET_KEY"] = 'zR11b652Ue6tMD8SavPNvxk9EFJ5i7jZ'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
-app.config['SECRET_KEY'] = 'your-secret-key'
-socketio = SocketIO(app)
+
+
+
+
+
+Bootstrap(app)
+db.init_app(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
+login_manager.login_view = 'auth.login'
+socketio = SocketIO(app)
 
 
 
@@ -28,6 +37,7 @@ def load_user(user_id):
    return users.query.get(int(user_id))
 
 @app.route('/')
+@login_required
 def index():
     return render_template('index.html')
 
