@@ -4,12 +4,16 @@ from flask_login import UserMixin
 
 db = SQLAlchemy()
 
-class User(db.Model, UserMixin):
+class users(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(50), unique=True, nullable=False)
-    password = db.Column(db.String(100), nullable=False)
-    messages = db.relationship('Message', backref='user', lazy=True)
-    conversations = db.relationship('Conversation', secondary='user_conversation', backref='users', lazy=True)
+    fullname = db.Column(db.String) 
+    username = db.Column(db.String(12), unique=True)
+    password = db.Column(db.String(100))
+    email = db.Column(db.String, unique=True)
+    dob = db.Column(db.String)
+    bio = db.Column(db.String)
+    pfp = db.Column(db.LargeBinary)
+    gender = db.Column(db.String)
 
 class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
